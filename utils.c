@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:50:24 by kgriset           #+#    #+#             */
-/*   Updated: 2024/03/24 19:11:47 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/03/26 14:29:51 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_usleep(size_t milliseconds)
 	start = get_current_time();
 	while ((get_current_time() - start) < milliseconds)
 		usleep(500);
-	return (0);
+	return (SUCCESS);
 }
 
 size_t get_current_time(void)
@@ -28,6 +28,6 @@ size_t get_current_time(void)
 
     if (gettimeofday(&time, NULL) == -1)
         return(printf("gettimeofday() error\n"), 0);
-    return (time.tv_sec * 1000 + time.tv_sec / 1000);
+    return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 

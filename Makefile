@@ -1,5 +1,4 @@
 C_FILES = $(wildcard ./*.c)
-O_FILES = $(C_FILES:%.c=build/%.o)
 C_FLAGS = -Wall -Werror -Wextra
 NAME = philo
 
@@ -9,10 +8,7 @@ NAME = philo
 all: $(NAME)
 
 $(NAME): $(C_FILES) | build
-	$(CC) -O2 $^ -o $(NAME)
-
-%.o: %.c 
-	$(CC)  -O2 -c $< -o $@
+	$(CC) -O2 -g $^ -o $(NAME)
 
 build:
 	mkdir -p build
