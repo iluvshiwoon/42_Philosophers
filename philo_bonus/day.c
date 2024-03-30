@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:18:15 by kgriset           #+#    #+#             */
-/*   Updated: 2024/03/30 18:56:53 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/03/30 19:06:21 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void eating(t_philo * philo)
         return;
     }
     sem_wait(philo->info->fork);
-    philo->eating = 1;
-    philo->meals_eaten += 1;
     message(philo,'f');
     message(philo, 'e');
+    philo->eating = 1;
     philo->last_meal = get_current_time();
+    philo->meals_eaten += 1;
     ft_usleep(philo->info->eat_time);
     philo->eating = 0;
     sem_post(philo->info->fork);
@@ -84,7 +84,7 @@ void day(t_program * program, int i)
     pthread_create(&philo.thread, NULL, &monitor, &philo);
     if (philo.id % 2 == 0)
         ft_usleep(1);
-    while(!philo.dead && philo.meals_eaten != philo.info->eat_nb)
+    while(!philo.dead)
     {
         eating(&philo);
         sleeping(&philo);
