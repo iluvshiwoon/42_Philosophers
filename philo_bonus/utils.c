@@ -6,11 +6,21 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:50:24 by kgriset           #+#    #+#             */
-/*   Updated: 2024/03/26 14:29:51 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/03/30 17:40:08 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
+
+void destroy_sema(t_program * program)
+{
+    sem_close(program->info.fork);
+    sem_close(program->info.death);
+    sem_close(program->info.write);
+    sem_unlink("fork");
+    sem_unlink("death");
+    sem_unlink("write");
+}
 
 int	ft_usleep(size_t milliseconds)
 {

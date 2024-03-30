@@ -6,11 +6,11 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:14:40 by kgriset           #+#    #+#             */
-/*   Updated: 2024/03/26 14:35:55 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/03/30 17:50:46 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int parse_input(int argc,char ** argv, t_program * program)
 {
@@ -42,29 +42,42 @@ int parse_input(int argc,char ** argv, t_program * program)
 
 int init(t_program * program)
 {
-    program->fork = malloc(sizeof(*program->fork) * program->info.nb);
-    program->philos = malloc(sizeof(*program->philos) * program->info.nb);
-    program->died = 0;
-    if (!program->fork || !program->philos)
-        return (ERROR);
-    pthread_mutex_init(&program->write_lock,NULL);
-    pthread_mutex_init(&program->meal_lock,NULL);
-    pthread_mutex_init(&program->dead_lock,NULL);
+    sem_unlink("fork");
+    sem_unlink("write");
+    sem_unlink("death");
+    program->info.fork = sem_open("fork", O_CREAT, 0700, program->info.nb);
+    program->info.write = sem_open("write", O_CREAT, 0700, 1);
+    program->info.death = sem_open("death", O_CREAT, 0700, 1);
+    if (program->info.fork == SEM_FAILED || program->info.write == SEM_FAILED
+    || program->info.death == SEM_FAILED)
+        return (destroy_sema(program),ERROR);
     return (SUCCESS);
 }
 
-int init_fork(t_program * program)
+void create_process(t_program * program)
 {
     size_t i;
 
     i = 0;
     while (i < program->info.nb)
     {
-        if(pthread_mutex_init(&program->fork[i],NULL))
-            return (kill_all(program), ERROR);
+        program->pid[i] = fork();
+        if (program->pid[i] == 0)
+            day(program, i);    
         ++i;
     }
-    return (SUCCESS);
+}
+
+void kill_processes(t_program * program)
+{
+    size_t i;
+
+    i = 0;
+    while (i < program->info.nb)
+    {
+        kill(program->pid[i], SIGINT);
+        ++i;
+    }
 }
 
 int deal(t_program * program)
@@ -72,25 +85,17 @@ int deal(t_program * program)
     size_t i;
 
     i = 0;
+    program->pid = malloc(sizeof(*program->pid) * program->info.nb);
+    if (!program->pid)
+        return (destroy_sema(program),ERROR);
     program->info.start_time = get_current_time();
+    create_process(program);
     while (i < program->info.nb)
     {
-        program->philos[i].id = i + 1;
-        program->philos[i].eating = 0;
-        program->philos[i].meals_eaten = 0;
-        program->philos[i].start_time = get_current_time();
-        program->philos[i].last_meal = program->philos[i].start_time;
-        program->philos[i].dead = &program->died;
-        program->philos[i].l_fork = &program->fork[i];
-        if (i == 0)
-            program->philos[i].r_fork = &program->fork[program->info.nb - 1];
-        else
-            program->philos[i].r_fork = &program->fork[i-1];
-        program->philos[i].write_lock = &program->write_lock;
-        program->philos[i].dead_lock = &program->dead_lock;
-        program->philos[i].meal_lock = &program->meal_lock;
-        program->philos[i].info = &program->info;
+        waitpid(program->pid[i], 0, 0);
         ++i;
     }
+    kill_processes(program);
+    destroy_sema(program);
     return (SUCCESS);
 }

@@ -6,11 +6,11 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:49:14 by kgriset           #+#    #+#             */
-/*   Updated: 2024/03/23 18:51:45 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/03/30 16:19:58 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static void init_atoi(size_t * i, unsigned int * value, int * l_digit, int * sign)
 {
