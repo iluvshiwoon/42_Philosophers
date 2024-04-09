@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:10:06 by kgriset           #+#    #+#             */
-/*   Updated: 2024/03/26 14:46:22 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:36:28 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int check_all_ate(t_program * program)
     i = 0;
     while (i < program->info.nb)
     {
-        if (!program->info.eat_nb || program->philos[i].meals_eaten != program->info.eat_nb)
+        if (!program->info.eat_nb || program->philos[i].meals_eaten < program->info.eat_nb)
             return (0);
         ++i;
     }
