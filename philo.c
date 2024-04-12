@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:49:36 by kgriset           #+#    #+#             */
-/*   Updated: 2024/04/09 14:22:18 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/04/12 09:28:52 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int main (int argc, char ** argv)
         status = parse_input(argc, argv, &program);
     else
         return(printf("Error\n"),ERROR);
-    printf("%d %d %d %d", program.info.nb,program.info.death_time,program.info.eat_time, program.info.sleep_time);
-    if (argc == 6)
-        printf(" %d\n",program.info.eat_nb);
-    else
-        printf("\n");
-	if (status == ERROR)
-		return (ERROR);
+    // printf("%d %d %d %d", program.info.nb,program.info.death_time,program.info.eat_time, program.info.sleep_time);
+    // if (argc == 6)
+    //     printf(" %d\n",program.info.eat_nb);
+ //    else
+ //        printf("\n");
+    if (status == ERROR)
+	return (ERROR);
     init(&program);
     init_fork(&program);
     deal(&program);

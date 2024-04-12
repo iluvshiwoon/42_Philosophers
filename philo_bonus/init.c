@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:14:40 by kgriset           #+#    #+#             */
-/*   Updated: 2024/03/30 17:50:46 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/04/12 09:50:07 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,5 @@ int deal(t_program * program)
     }
     kill_processes(program);
     destroy_sema(program);
-    return (SUCCESS);
+    return (free(program->pid),SUCCESS);
 }

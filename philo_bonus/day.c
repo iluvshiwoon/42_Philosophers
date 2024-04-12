@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:18:15 by kgriset           #+#    #+#             */
-/*   Updated: 2024/03/30 19:06:21 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/04/12 09:55:54 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,5 @@ void day(t_program * program, int i)
         sleeping(&philo);
         thinking(&philo);
     }
-    pthread_detach(philo.thread);
+    pthread_join(philo.thread,NULL);
 }

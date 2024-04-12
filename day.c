@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:18:15 by kgriset           #+#    #+#             */
-/*   Updated: 2024/03/26 14:37:28 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/04/12 09:19:44 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void message(t_philo * philo,char c)
     if (c == 'f')
         printf("%zu %d %s\n",time,philo->id,"has taken a fork");
     else if (c == 'e')
-        printf("%zu %d %s\n",time,philo->id,"eating");
+        printf("%zu %d %s\n",time,philo->id,"is eating");
     else if (c == 's')
-        printf("%zu %d %s\n",time,philo->id,"sleeping");
+        printf("%zu %d %s\n",time,philo->id,"is sleeping");
     else if (c == 't')
-        printf("%zu %d %s\n",time,philo->id,"thinking");
+        printf("%zu %d %s\n",time,philo->id,"is thinking");
     else if (c == 'd')
         printf("%zu %d %s\n",time,philo->id,"died");
     pthread_mutex_unlock(philo->write_lock);
@@ -85,6 +85,8 @@ void *day(void * arg)
     t_philo * philo;
     philo = (t_philo *)arg;
     
+    while (get_current_time() != philo->info->start_time + 2 * philo->info->nb)
+	ft_usleep(1);
     if (philo->id % 2 == 0)
         ft_usleep(1);
     while(!is_dead(philo))
