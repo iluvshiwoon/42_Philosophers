@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:18:15 by kgriset           #+#    #+#             */
-/*   Updated: 2024/05/27 13:03:42 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/07/18 22:30:11 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,15 @@ void	*day(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (get_current_time() != philo->info->start_time + 2 * philo->info->nb)
+	while (get_current_time() < philo->info->start_time + 2 * philo->info->nb)
 		ft_usleep(1);
-	if (philo->id % 2 == 0)
-		ft_usleep(1);
+    if (philo->id % 2 == 0)
+    {
+        if (philo->id < philo->info->nb / 2)
+		    ft_usleep(3);
+        else
+            ft_usleep(6);
+    }
 	while (!is_dead(philo))
 	{
 		eating(philo);
