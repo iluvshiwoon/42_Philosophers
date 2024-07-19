@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:15:49 by kgriset           #+#    #+#             */
-/*   Updated: 2024/05/27 12:57:43 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:57:14 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	destroy_mutex(t_program *program)
 	while (i < program->info.nb)
 	{
 		if (pthread_mutex_destroy(&program->fork[i]))
-			return (ERROR);
+			return (EXIT_FAILURE);
 		++i;
 	}
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 int	kill_all(t_program *program)
@@ -34,5 +34,5 @@ int	kill_all(t_program *program)
 	pthread_mutex_destroy(&program->dead_lock);
 	free(program->fork);
 	free(program->philos);
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }

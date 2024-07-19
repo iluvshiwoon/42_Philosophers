@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:14:40 by kgriset           #+#    #+#             */
-/*   Updated: 2024/05/27 12:57:52 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:56:11 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,26 @@ int	parse_input(int argc, char **argv, t_program *program)
 	int	status;
 
 	program->info.nb = ft_atoi_safe(argv[1], &status);
-	if (!((program->info.nb > 0 && program->info.nb <= 200)) || !status)
-		return (printf("Error\n"), ERROR);
+	if (!((program->info.nb > 0 && program->info.nb <= 200)) || status == EXIT_FAILURE)
+		return (printf("Error\n"), EXIT_FAILURE);
 	program->info.death_time = ft_atoi_safe(argv[2], &status);
-	if (!(program->info.death_time > 0) || !status)
-		return (printf("Error\n"), ERROR);
+	if (!(program->info.death_time > 0) || status == EXIT_FAILURE)
+		return (printf("Error\n"), EXIT_FAILURE);
 	program->info.eat_time = ft_atoi_safe(argv[3], &status);
-	if (!(program->info.eat_time > 0) || !status)
-		return (printf("Error\n"), ERROR);
+	if (!(program->info.eat_time > 0) || status == EXIT_FAILURE)
+		return (printf("Error\n"), EXIT_FAILURE);
 	program->info.sleep_time = ft_atoi_safe(argv[4], &status);
-	if (!(program->info.sleep_time > 0) || !status)
-		return (printf("Error\n"), ERROR);
+	if (!(program->info.sleep_time > 0) || status == EXIT_FAILURE)
+		return (printf("Error\n"), EXIT_FAILURE);
 	if (argc == 6)
 	{
 		program->info.eat_nb = ft_atoi_safe(argv[5], &status);
-		if (!(program->info.eat_nb >= 0) || !status)
-			return (printf("Error\n"), ERROR);
+		if (!(program->info.eat_nb >= 0) || status == EXIT_FAILURE)
+			return (printf("Error\n"), EXIT_FAILURE);
 	}
 	else
 		program->info.eat_nb = 0;
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 int	init(t_program *program)
@@ -45,11 +45,11 @@ int	init(t_program *program)
 	program->philos = malloc(sizeof(*program->philos) * program->info.nb);
 	program->died = 0;
 	if (!program->fork || !program->philos)
-		return (ERROR);
+		return (EXIT_FAILURE);
 	pthread_mutex_init(&program->write_lock, NULL);
 	pthread_mutex_init(&program->meal_lock, NULL);
 	pthread_mutex_init(&program->dead_lock, NULL);
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 int	init_fork(t_program *program)
@@ -60,10 +60,10 @@ int	init_fork(t_program *program)
 	while (i < program->info.nb)
 	{
 		if (pthread_mutex_init(&program->fork[i], NULL))
-			return (kill_all(program), ERROR);
+			return (kill_all(program), EXIT_FAILURE);
 		++i;
 	}
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 int	deal(t_program *program)
@@ -91,5 +91,5 @@ int	deal(t_program *program)
 		program->philos[i].info = &program->info;
 		++i;
 	}
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }

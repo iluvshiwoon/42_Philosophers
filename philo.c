@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:49:36 by kgriset           #+#    #+#             */
-/*   Updated: 2024/05/27 14:36:38 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:58:05 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 		status = parse_input(argc, argv, &program);
 	else
-		return (printf("Error\n"), ERROR);
-	if (status == ERROR)
-		return (ERROR);
-	if (!init(&program))
-		return (ERROR);
+		return (printf("Error\n"), EXIT_FAILURE);
+	if (status == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (init(&program) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	init_fork(&program);
 	deal(&program);
 	thread_create_all(&program);
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }

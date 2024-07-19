@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:52:07 by kgriset           #+#    #+#             */
-/*   Updated: 2024/05/27 13:04:19 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:57:29 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
-
-typedef enum e_signal
-{
-	ERROR = 0,
-	SUCCESS,
-}					t_signal;
 
 typedef struct s_info
 {

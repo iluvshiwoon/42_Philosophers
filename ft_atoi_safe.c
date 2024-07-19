@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:49:14 by kgriset           #+#    #+#             */
-/*   Updated: 2024/05/27 12:57:46 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:57:04 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ int	ft_atoi_safe(char *string, int *status)
 	{
 		if (ft_isdigit(string[i]) && ((value == INT_MAX / 10 && string[i]
 					- '0' > l_digit) || (value > INT_MAX / 10)))
-			return (*status = ERROR, 0);
+			return (*status = EXIT_FAILURE, 0);
 		else if (ft_isdigit(string[i]))
 			value = value * 10 + string[i] - '0';
 		else
-			return (*status = ERROR, 0);
+			return (*status = EXIT_FAILURE, 0);
 		++i;
 	}
 	if (value == (unsigned int){2147483648})
-		return (*status = SUCCESS, INT_MIN);
-	return (*status = SUCCESS, (int)value * sign);
+		return (*status = EXIT_SUCCESS, INT_MIN);
+	return (*status = EXIT_SUCCESS, (int)value * sign);
 }

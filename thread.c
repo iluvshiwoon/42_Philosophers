@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 19:10:06 by kgriset           #+#    #+#             */
-/*   Updated: 2024/05/27 12:58:00 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:57:11 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,22 @@ int	thread_create_all(t_program *program)
 
 	i = 0;
 	if (pthread_create(&monitor_t, NULL, &monitor, program))
-		return (kill_all(program), ERROR);
+		return (kill_all(program), EXIT_FAILURE);
 	while (i < program->info.nb)
 	{
 		if (pthread_create(&program->philos[i].thread, NULL, &day,
 				&program->philos[i]))
-			return (kill_all(program), ERROR);
+			return (kill_all(program), EXIT_FAILURE);
 		++i;
 	}
 	i = 0;
 	if (pthread_join(monitor_t, NULL))
-		return (kill_all(program), ERROR);
+		return (kill_all(program), EXIT_FAILURE);
 	while (i < program->info.nb)
 	{
 		if (pthread_join(program->philos[i].thread, NULL))
-			return (kill_all(program), ERROR);
+			return (kill_all(program), EXIT_FAILURE);
 		++i;
 	}
-	return (kill_all(program), SUCCESS);
+	return (kill_all(program), EXIT_SUCCESS);
 }
