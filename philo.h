@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 18:52:07 by kgriset           #+#    #+#             */
-/*   Updated: 2024/07/19 14:57:29 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/07/19 15:01:46 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ typedef struct s_philo
 	size_t			last_meal;
 	size_t			start_time;
 	int				*dead;
+	t_info			info;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*meal_lock;
-	t_info			*info;
 }					t_philo;
 
 typedef struct s_program

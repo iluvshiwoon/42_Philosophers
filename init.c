@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:14:40 by kgriset           #+#    #+#             */
-/*   Updated: 2024/07/19 14:56:11 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/07/19 16:50:18 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,17 @@ int	deal(t_program *program)
 		program->philos[i].last_meal = program->philos[i].start_time;
 		program->philos[i].dead = &program->died;
 		program->philos[i].l_fork = &program->fork[i];
-		if (i == 0)
+		if (i == program->info.nb - 1)
+        {
+			program->philos[i].l_fork = &program->fork[0];
 			program->philos[i].r_fork = &program->fork[program->info.nb - 1];
+        }
 		else
-			program->philos[i].r_fork = &program->fork[i - 1];
+			program->philos[i].r_fork = &program->fork[i + 1];
 		program->philos[i].write_lock = &program->write_lock;
 		program->philos[i].dead_lock = &program->dead_lock;
 		program->philos[i].meal_lock = &program->meal_lock;
-		program->philos[i].info = &program->info;
+		program->philos[i].info = program->info;
 		++i;
 	}
 	return (EXIT_SUCCESS);

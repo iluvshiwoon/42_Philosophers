@@ -8,7 +8,7 @@ NAME = philo
 all: $(NAME)
 
 $(NAME): $(C_FILES) | build
-	$(CC) -O2 -g $^ -o $(NAME)
+	$(CC) -g $^ -o $(NAME)
 
 build:
 	mkdir -p build
