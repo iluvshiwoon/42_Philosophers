@@ -6,19 +6,27 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:49:14 by kgriset           #+#    #+#             */
-/*   Updated: 2024/07/19 14:57:04 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/07/25 12:04:42 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	init_atoi(size_t *i, unsigned int *value, int *l_digit, int *sign)
+static inline void	init_atoi(size_t *i, unsigned int *value, int *l_digit, int *sign)
 {
 	*i = 0;
 	*value = 0;
 	*l_digit = 7;
 	*sign = 1;
 	return ;
+}
+
+static inline int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (c);
+	else
+		return (0);
 }
 
 int	ft_atoi_safe(char *string, int *status)

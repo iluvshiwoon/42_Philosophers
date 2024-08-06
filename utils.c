@@ -5,52 +5,61 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 18:50:24 by kgriset           #+#    #+#             */
-/*   Updated: 2024/07/19 14:57:11 by kgriset          ###   ########.fr       */
+/*   Created: 2024/07/25 15:16:08 by kgriset           #+#    #+#             */
+/*   Updated: 2024/08/06 16:23:18 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_usleep(size_t milliseconds)
+int print_error_mutex(int error_code) 
 {
-	size_t	start;
-
-	start = get_current_time();
-	while ((get_current_time() - start) < milliseconds)
-		usleep(500);
-	return (EXIT_SUCCESS);
+    if (error_code == 0)
+        return(EXIT_SUCCESS);
+    else if (error_code == EBUSY)
+        return(error_return("Error: EBUSY - The mutex is already locked by another thread."));
+    else if (error_code == EINVAL)
+        return(error_return("Error: EINVAL - The mutex is not a valid mutex."));
+    else if (error_code == ENOMEM)
+        return(error_return("Error: ENOMEM - Not enough memory to create the mutex."));
+    else if (error_code == ETIMEDOUT)
+        return(error_return("Error: ETIMEDOUT - The time limit expired before the mutex could be locked."));
+    return (EXIT_SUCCESS);
 }
 
-size_t	get_current_time(void)
+void * safe_malloc(size_t bytes)
 {
-	struct timeval	time;
+    void * r_value;
 
-	if (gettimeofday(&time, NULL) == -1)
-		return (printf("gettimeofday() error\n"), 0);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+    r_value = malloc(bytes);
+    if (!r_value)
+        return(error_return("Malloc failed"), NULL);
+    return (r_value);
 }
 
-void	message(t_philo *philo, char c)
+void write_status(t_status status, t_philo * philo)
 {
-	size_t	time;
+    long time;
 
-	time = get_current_time() - philo->start_time;
-	pthread_mutex_lock(philo->write_lock);
-	if (is_dead(philo))
-	{
-		pthread_mutex_unlock(philo->write_lock);
-		return ;
-	}
-	if (c == 'f')
-		printf("%zu %d %s\n", time, philo->id, "has taken a fork");
-	else if (c == 'e')
-		printf("%zu %d %s\n", time, philo->id, "is eating");
-	else if (c == 's')
-		printf("%zu %d %s\n", time, philo->id, "is sleeping");
-	else if (c == 't')
-		printf("%zu %d %s\n", time, philo->id, "is thinking");
-	else if (c == 'd')
-		printf("%zu %d %s\n", time, philo->id, "died");
-	pthread_mutex_unlock(philo->write_lock);
+    time = gettime(MILLISECOND) - get_long(philo->lock_program, philo->program_start);
+    if (get_bool(&philo->lock_philo,&philo->full))
+        return;
+    pthread_mutex_lock(philo->lock_write); 
+    if ((FIRST_FORK == status || SECOND_FORK == status) && !get_bool(philo->lock_program, philo->end_program))
+        printf(BOLD_GREEN"%-6ld"RESET" %ld has taken a fork\n",time,philo->id);
+    else if (EATING == status && !get_bool(philo->lock_program, philo->end_program))
+        printf(BOLD_GREEN"%-6ld"RESET" %ld is eating\n",time,philo->id);
+    else if (SLEEPING == status && !get_bool(philo->lock_program, philo->end_program))
+        printf(BOLD_GREEN"%-6ld"RESET" %ld is sleeping\n",time,philo->id);
+    else if (THINKING == status && !get_bool(philo->lock_program, philo->end_program))
+        printf(BOLD_GREEN"%-6ld"RESET" %ld is thinking\n",time,philo->id);
+    else if (DIED == status && !get_bool(philo->lock_program, philo->end_program))
+        printf(BOLD_RED"%-6ld"RESET" %ld has died\n",time,philo->id);
+    pthread_mutex_unlock(philo->lock_write); 
+}
+
+int error_return(const char * str)
+{
+    printf(BOLD_RED"Error"RESET" : "BOLD_RED"%s\n"RESET, str);
+    return (EXIT_FAILURE);
 }
