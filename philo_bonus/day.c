@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:18:15 by kgriset           #+#    #+#             */
-/*   Updated: 2024/05/27 12:58:53 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/08/06 21:43:20 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	day(t_program *program, int i)
 	philo.start_time = get_current_time();
 	philo.last_meal = philo.start_time;
 	philo.meals_eaten = 0;
-	while (get_current_time() != philo.info->start_time + 2 * philo.info->nb)
+	while (get_current_time() <= philo.info->start_time + 2 * philo.info->nb)
 		ft_usleep(1);
 	pthread_create(&philo.thread, NULL, &monitor, &philo);
 	if (philo.id % 2 == 0)

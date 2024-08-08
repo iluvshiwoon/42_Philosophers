@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:34:03 by kgriset           #+#    #+#             */
-/*   Updated: 2024/08/06 15:40:27 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/08/06 16:37:58 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int init_forks(t_program * program)
     i = -1;
     while (++i < program->info.nb_philo)
     {
-        if(print_error_mutex(pthread_mutex_init(&(program->forks[i].mtx),NULL)))
-            return(destroy_forks(program->forks,i), EXIT_FAILURE);
+        if(pthread_mutex_init(&(program->forks[i].mtx),NULL))
+            return(/* destroy_forks(program->forks,i), */ EXIT_FAILURE);
         program->forks[i].id = i;
     }
     return(EXIT_SUCCESS);

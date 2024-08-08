@@ -6,7 +6,7 @@
 /*   By: kgriset <kgriset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 16:19:37 by kgriset           #+#    #+#             */
-/*   Updated: 2024/08/06 16:23:48 by kgriset          ###   ########.fr       */
+/*   Updated: 2024/08/06 16:31:38 by kgriset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void destroy_forks(t_fork * forks, int i)
 
     j = -1;
     while(++j <= i)
-        print_error_mutex(pthread_mutex_destroy(&(forks[i].mtx)));
+        pthread_mutex_destroy(&(forks[i].mtx));
 }
 
 
